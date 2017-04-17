@@ -17,7 +17,7 @@ requirements = [
 
 test_requirements = [
     'pytest'
-]
+] + requirements
 
 setup(
     name='tssim',
