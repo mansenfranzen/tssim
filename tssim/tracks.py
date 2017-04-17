@@ -28,7 +28,7 @@ class TimeTrack:
     """
 
     def __init__(self, time_series, time_function=None, percentage=1,
-                 default=np.NaN, start=None, end=None, unit=None,
+                 default=np.NaN, start=None, end=None, freq=None,
                  iterated=None, condition=None):
         """Initializes TimeTrack objects. 
         
@@ -56,12 +56,12 @@ class TimeTrack:
         else:
             self.end = time_series.index.max()
 
-        if unit:
-            self.unit = unit
+        if freq:
+            self.freq = freq
         else:
-            self.unit = time_series.unit
+            self.freq = time_series.unit
 
-        self.index = pd.date_range(self.start, self.end, freq=self.unit)
+        self.index = pd.date_range(self.start, self.end, freq=self.freq)
 
 
     def generate(self):
@@ -102,17 +102,17 @@ class TimeTrack:
 
         # add default values if required
         if self.default is not None:
-            ts_values = ts_values.asfreq(self.unit).fillna(self.default)
+            ts_values = ts_values.asfreq(self.freq).fillna(self.default)
 
         return TimeTrackResult(self, ts_values)
 
 
     def __repr__(self):
-        tpl = "{} (start: {}, end: {}, unit: {}, function: {}"
+        tpl = "{} (start: {}, end: {}, freq: {}, function: {}"
         return tpl.format(self.__class__.__name__,
                           self.start,
                           self.end,
-                          self.unit,
+                          self.freq,
                           self.time_function)
 
 
