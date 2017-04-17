@@ -10,12 +10,13 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'Click>=6.0',
-    # TODO: put package requirements here
+    'pandas',
+    'numpy',
+    'bokeh'
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'pytest'
 ]
 
 setup(
@@ -31,11 +32,6 @@ setup(
     ],
     package_dir={'tssim':
                  'tssim'},
-    entry_points={
-        'console_scripts': [
-            'tssim=tssim.cli:main'
-        ]
-    },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
