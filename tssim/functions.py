@@ -1,6 +1,7 @@
 """This module contains the TimeFunction"""
 
 import pandas as pd
+import inspect
 
 
 class TimeFunction:
@@ -24,7 +25,8 @@ class TimeFunction:
         """
 
         if not (vectorized or iterated):
-            raise ValueError("Must provide function")
+            raise ValueError("At least one function / function generator needs"
+                             "to be provided for 'vectorized' or 'iterated'")
 
         self.vectorized = vectorized
         self.iterated = iterated
@@ -47,13 +49,32 @@ class TimeFunction:
 
         return self._generate_iterated(time_units)
 
+    def _evaluate_function(self, function):
+        """Check type of function. If function takes no arguments it is 
+        expected to be a function generator. If it takes exactly one argument,
+        it is expected to be a constant function.
+        
+        """
+
+        arguments = len(inspect.signature(function).parameters)
+
+        if arguments > 1:
+            raise ValueError("Function passed to TimeFunction needs to have 0 "
+                             "arguments for a function generator or 1 arugment"
+                             " for a constant function. Passed function has {}"
+                             " arguments.".format(arguments))
+
+        if arguments:
+            return function
+        else:
+            return self._evaluate_function(function())
 
     def _generate_vectorized(self, time_units):
         """Generate values in a vectorized fashion.
         
         """
 
-        time_func = self.vectorized()
+        time_func = self._evaluate_function(self.vectorized)
         time_values = time_func(time_units)
 
         if self.condition:
@@ -70,7 +91,7 @@ class TimeFunction:
         
         """
 
-        time_func = self.iterated()
+        time_func = self._evaluate_function(self.iterated)
 
         if self.condition:
             def yield_values():
