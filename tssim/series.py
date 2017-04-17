@@ -75,15 +75,18 @@ class TimeSeries:
     
     """
 
-    def __init__(self, *args, unit="h", **kwargs):
-        """Initialize TimeSeries. All arguments except `unit` are passed to
-        pd.DatetimeIndex  to create the actual time index. `unit` defines the
-        final time interval.
+    def __init__(self, index=None, freq="h", **kwargs):
+        """Initialize TimeSeries. Expect pd.DatetimeIndex as `index`. If not
+        provided, delegates to pd.date_range to create a valid DatetimeIndex.
         
         """
 
-        self.index = pd.DatetimeIndex(*args, **kwargs)
-        self.unit = unit
+        if isinstance(index, pd.DatetimeIndex):
+            self.index = index
+        else:
+            self.index = pd.date_range(freq=freq, **kwargs)
+
+        self.freq = freq
         self.tracks = {}
 
     def add(self, name, *args, **kwargs):
