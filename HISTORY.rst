@@ -5,4 +5,7 @@ History
 0.1.0 (2017-04-16)
 ------------------
 
-* First release on PyPI.
+* Add TimeSeries and TimeSeriesResult.
+* Add TimeTrack and TimeTrackResult.
+* Add TimeFunction.
+* Add function examples.

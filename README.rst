@@ -17,9 +17,12 @@ tssim
      :target: https://pyup.io/repos/github/mansenfranzen/tssim/
      :alt: Updates
 
+.. image:: https://coveralls.io/repos/github/mansenfranzen/tssim/badge.svg?branch=master(Coverage Status)
+     :target: https://coveralls.io/github/mansenfranzen/tssim?branch=master
+     :alt: Updates
 
-.
 
+Convenient time series simulation/generation package.
 
 * Free software: MIT license
 * Documentation: https://tssim.readthedocs.io.
