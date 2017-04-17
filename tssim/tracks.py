@@ -59,7 +59,7 @@ class TimeTrack:
         if freq:
             self.freq = freq
         else:
-            self.freq = time_series.unit
+            self.freq = time_series.freq
 
         self.index = pd.date_range(self.start, self.end, freq=self.freq)
 
