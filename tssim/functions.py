@@ -1,7 +1,6 @@
 """This module contains the TimeFunction"""
 
 import pandas as pd
-import inspect
 
 
 class TimeFunction:
@@ -56,7 +55,7 @@ class TimeFunction:
         
         """
 
-        arguments = len(inspect.signature(function).parameters)
+        arguments = function.__code__.co_argcount
 
         if arguments > 1:
             raise ValueError("Function passed to TimeFunction needs to have 0 "

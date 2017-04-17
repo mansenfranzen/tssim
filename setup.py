@@ -1,7 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
+
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -17,7 +32,7 @@ requirements = [
 
 test_requirements = [
     'pytest'
-]
+] + requirements
 
 setup(
     name='tssim',
@@ -51,5 +66,6 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
+    cmdclass={'test': PyTest}
 )
