@@ -27,9 +27,9 @@ class TimeTrack:
     
     """
 
-    def __init__(self, time_series, time_function, percentage=1,
+    def __init__(self, time_series, time_function=None, percentage=1,
                  default=np.NaN, start=None, end=None, unit=None,
-                 condition=None):
+                 iterated=None, condition=None):
         """Initializes TimeTrack objects. 
         
         """
@@ -39,7 +39,8 @@ class TimeTrack:
         if isinstance(time_function, TimeFunction):
             self.time_function = time_function
         else:
-            self.time_function = TimeFunction(time_function,
+            self.time_function = TimeFunction(vectorized=time_function,
+                                              iterated=iterated,
                                               condition=condition)
 
         self.percentage = percentage
