@@ -3,6 +3,8 @@
 import pandas as pd
 import numpy as np
 
+from .functions import TimeFunction
+
 
 ERR_BOUNDARY = "Given time value '{}' is not located within '{}' and '{}' " \
                "boundaries of parent TimeSeries."
@@ -25,14 +27,21 @@ class TimeTrack:
     
     """
 
-    def __init__(self, time_series, time_function=None, percentage=1,
-                 default=None, start=None, end=None, unit=None):
+    def __init__(self, time_series, time_function, percentage=1,
+                 default=np.NaN, start=None, end=None, unit=None,
+                 condition=None):
         """Initializes TimeTrack objects. 
         
         """
 
         self.time_series = time_series
-        self.time_function = time_function
+
+        if isinstance(time_function, TimeFunction):
+            self.time_function = time_function
+        else:
+            self.time_function = TimeFunction(time_function,
+                                              condition=condition)
+
         self.percentage = percentage
         self.default = default
 
