@@ -17,7 +17,7 @@ tssim
      :target: https://pyup.io/repos/github/mansenfranzen/tssim/
      :alt: Updates
 
-.. image:: https://coveralls.io/repos/github/mansenfranzen/tssim/badge.svg?branch=master(Coverage Status)
+.. image:: https://coveralls.io/repos/github/mansenfranzen/tssim/badge.svg?branch=master
      :target: https://coveralls.io/github/mansenfranzen/tssim?branch=master
      :alt: Updates
 
