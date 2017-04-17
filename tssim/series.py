@@ -10,7 +10,8 @@ from . import tracks
 
 
 class TimeSeriesResult:
-    """Contains the result of generated TimeTrack instance.
+    """Contains the result of generated TimeTrack instance. Provides convenient
+    plotting functions to visualize time series values.
 
     """
 
@@ -18,19 +19,51 @@ class TimeSeriesResult:
         self.values = values
         self.tracks = tracks
 
-    def plot(self):
-        p = figure(x_axis_type="datetime", width=800)
-        p.line(self.values.index, self.values)
-        show(p)
+    def plot(self, action="show", filename="plot.html", **kwargs):
+        """Plot the result time series values.
+        
+        """
 
-    def plot_tracks(self):
-        p = figure(x_axis_type="datetime", width=800)
+        p = figure(x_axis_type="datetime", **kwargs)
+        p.line(self.values.index, self.values)
+
+        return self._handle_plot_action(p, action, filename)
+
+    def plot_tracks(self, action="show", filename="plot.html", **kwargs):
+        """Plot all TimeTrackResult values in one figure.
+        
+        """
+
+        p = figure(x_axis_type="datetime", **kwargs)
         colors = itertools.cycle(Category10[10])
 
         for (name, result), color in zip(self.tracks.items(), colors):
             values = result.values
             p.line(values.index, values, color=color, legend=name)
-        show(p)
+
+        return self._handle_plot_action(p, action, filename)
+
+
+    def _handle_plot_action(self, p, action, filename):
+        """Helper function to evaluate required action for resulting plot.
+        
+        Plot may either be shown, saved or returned.
+        
+        """
+
+        if action == "show":
+            show(p)
+
+        elif action == "save":
+            save(p, filename)
+
+        elif action == "raw":
+            return p
+
+        else:
+            raise ValueError("Wrong plot 'action' provided. Please use 'show',"
+                             " 'save' or 'raw' (return figure object).")
+
 
 
 class TimeSeries:
