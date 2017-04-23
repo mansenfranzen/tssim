@@ -1,6 +1,7 @@
 """This module contains the TimeFunction"""
 
 import pandas as pd
+from ..functions.wrapper import BaseWrapper
 
 
 class TimeFunction:
@@ -55,10 +56,19 @@ class TimeFunction:
         
         """
 
+        if issubclass(function.__class__, BaseWrapper):
+            return function()
+
         try:
+            # get number of optional keyword arguments
+            try:
+                kwargs_count = len(function.__defaults__)
+            except TypeError:
+                kwargs_count = 0
+
             arg_names = function.__code__.co_varnames
-            kwarg_count = len(function.__defaults__)
-            karg_count = len(arg_names) - kwarg_count
+            karg_count = len(arg_names) - kwargs_count
+
         except AttributeError:
             return function
 
