@@ -1,7 +1,7 @@
 """This module contains the main wrapper class."""
 
 
-class BaseWrapper:
+class BaseWrapper(object):
     """Define base template for function wrapper classes. """
 
     def __init__(self, func):
