@@ -1,10 +1,9 @@
 """This module tests the TimeFunction class"""
 
-import pytest
 import pandas as pd
+import pytest
 
-from tssim.functions import TimeFunction
-
+import tssim
 
 @pytest.fixture
 def ts():
@@ -21,4 +20,4 @@ def ts():
 def test_vectorized_no_condition(ts):
     func = lambda x: x * 2
 
-    assert func(ts).equals(TimeFunction(func).generate(ts))
+    assert func(ts).equals(tssim.TimeFunction(func).generate(ts))
