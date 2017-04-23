@@ -21,11 +21,7 @@ deploy:
     condition: $TOXENV == py27
     repo: mansenfranzen/tssim
     tags: true
-env:
-- TOXENV=py36
-- TOXENV=py35
-- TOXENV=py34
-- TOXENV=py27
+
 
 install: pip install -U tox
 language: python
@@ -35,4 +31,4 @@ python:
   - "3.4"
   - "2.7"
 
-script: tox -e ${TOXENV}
+script: tox -e $(echo py$TRAVIS_PYTHON_VERSION | tr -d .)
