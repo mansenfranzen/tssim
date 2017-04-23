@@ -34,7 +34,7 @@ class NumpyWrapper(BaseWrapper):
 
         if self.size == "arg":
             def wrapped(x):
-                return self.func(*args, x.shape[0], **kwargs)
+                return self.func(x.shape[0], *args, **kwargs)
 
         elif self.size == "kwarg":
             def wrapped(x):
