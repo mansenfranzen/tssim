@@ -2,7 +2,7 @@
 
 __author__ = """Franz Woellert"""
 __email__ = 'franz.woellert@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 from tssim.core.series import TimeSeries
