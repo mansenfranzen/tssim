@@ -1,12 +1,12 @@
 """This module contains the TimeSeries"""
 
-import pandas as pd
 import itertools
 
-from bokeh.plotting import figure, show, save
+import pandas as pd
 from bokeh.palettes import Category10
+from bokeh.plotting import figure, show, save
 
-from . import tracks
+from . import track
 
 
 class TimeSeriesResult:
@@ -98,7 +98,7 @@ class TimeSeries:
         if name in self.tracks:
             raise ValueError("TimeTrack with name '{}' is already given.")
 
-        self.tracks[name] = tracks.TimeTrack(self, *args, **kwargs)
+        self.tracks[name] = track.TimeTrack(self, *args, **kwargs)
 
     def generate(self):
         """Generate actual time series values for all TimeTracks. Return 

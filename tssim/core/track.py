@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
-from .functions import TimeFunction
+from .function import TimeFunction
 
 
 ERR_BOUNDARY = "Given time value '{}' is not located within '{}' and '{}' " \
