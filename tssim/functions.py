@@ -10,8 +10,8 @@ class TimeFunction:
     The `condition` defines the valid range of values. Any values which do not
     satisfy the condition are discarded.
     
-    In addition, a TimeFunction may have `vectorized` and `iterated` function
-    counterparts. The iterated function is particularly interesting when a 
+    In addition, a TimeFunction may have `vectorized` and `iterated` implemen-
+    tations. The iterated function is particularly interesting when a 
     condition is given. As soon as the condition evaluates to False, the
     function will end to compute further values. This has performance benefits
     on large time series.
@@ -55,16 +55,28 @@ class TimeFunction:
         
         """
 
-        arguments = function.__code__.co_argcount
+        try:
+            arg_names = function.__code__.co_varnames
+            kwarg_count = len(function.__defaults__)
+            karg_count = len(arg_names) - kwarg_count
+        except AttributeError:
+            return function
 
-        if arguments > 1:
+        # not more than one karg allowed
+        if karg_count > 1:
             raise ValueError("Function passed to TimeFunction needs to have 0 "
                              "arguments for a function generator or 1 arugment"
                              " for a constant function. Passed function has {}"
-                             " arguments.".format(arguments))
+                             " arguments.".format(karg_count))
 
-        if arguments:
+        # check for functions with no kargs and a size kwarg
+        elif karg_count == 0 and "size" in arg_names:
+            return lambda x: function(size=x.shape[0])
+
+        # finalized function
+        elif karg_count == 1:
             return function
+
         else:
             return self._evaluate_function(function())
 
@@ -75,6 +87,9 @@ class TimeFunction:
 
         time_func = self._evaluate_function(self.vectorized)
         time_values = time_func(time_units)
+
+        if not issubclass(time_values.__class__, pd.Series):
+            time_values = pd.Series(time_values, index=time_units.index)
 
         if self.condition:
             mask = self.condition(time_values)
