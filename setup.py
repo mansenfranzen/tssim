@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 
@@ -42,12 +42,7 @@ setup(
     author="Franz Woellert",
     author_email='franz.woellert@gmail.com',
     url='https://github.com/mansenfranzen/tssim',
-    packages=[
-        'tssim',
-    ],
-    package_dir={'tssim':
-                 'tssim'},
-    include_package_data=True,
+    packages=find_packages(),
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
